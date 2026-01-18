@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+backend/cache/audio/*
+backend/cache/epub/*
+backend/cache/video/*
+!backend/cache/audio/.gitkeep
+!backend/cache/epub/.gitkeep
+!backend/cache/video/.gitkeep
+
+# PHP
+composer.lock
+
+# TypeScript
+*.tsbuildinfo
