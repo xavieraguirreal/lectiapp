@@ -3,7 +3,7 @@ node_modules/
 vendor/
 
 # Build outputs
-frontend/dist/
+# frontend/dist/  # Comentado para deploy en Ferozo
 frontend/build/
 
 # Environment files
