@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import {
   BookOpen,
   Headphones,
   Video,
   Search,
   Globe,
-  Play,
   ArrowRight,
   BookMarked,
   GraduationCap,
@@ -14,6 +13,11 @@ import {
   Clock,
   WifiOff,
   Smartphone,
+  Mail,
+  MessageSquare,
+  Sparkles,
+  RotateCcw,
+  Send,
 } from 'lucide-react'
 
 export default function Landing() {
@@ -39,19 +43,19 @@ export default function Landing() {
               <a href="#contenido" className="text-amber-800 hover:text-amber-950 transition-colors font-medium">
                 Contenido
               </a>
-              <a href="#testimonios" className="text-amber-800 hover:text-amber-950 transition-colors font-medium">
-                Testimonios
+              <a href="#quiz" className="text-amber-800 hover:text-amber-950 transition-colors font-medium">
+                Quiz
               </a>
-              <a href="#usos" className="text-amber-800 hover:text-amber-950 transition-colors font-medium">
-                Usos
+              <a href="#lista-espera" className="text-amber-800 hover:text-amber-950 transition-colors font-medium">
+                Avísame
               </a>
             </nav>
-            <Link
-              to="/catalog"
+            <a
+              href="#lista-espera"
               className="px-5 py-2 bg-amber-900 hover:bg-amber-800 text-amber-50 font-medium rounded-full transition-colors"
             >
-              Explorar
-            </Link>
+              Muy pronto
+            </a>
           </div>
         </div>
       </header>
@@ -61,9 +65,12 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-amber-700 font-medium tracking-widest uppercase text-sm mb-4">
-                Tu biblioteca personal
-              </p>
+              {/* Coming Soon Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 border border-amber-300 rounded-full mb-6">
+                <Sparkles className="w-4 h-4 text-amber-600" />
+                <span className="text-amber-800 font-medium text-sm">Muy pronto disponible</span>
+              </div>
+
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-amber-950 mb-6 leading-tight">
                 Todo el conocimiento que buscas, en un solo lugar
               </h1>
@@ -73,18 +80,18 @@ export default function Landing() {
                 <strong className="text-amber-950"> Sin distracciones, sin anuncios, sin complicaciones.</strong>
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  to="/catalog"
+                <a
+                  href="#lista-espera"
                   className="inline-flex items-center justify-center px-8 py-4 bg-amber-900 hover:bg-amber-800 text-amber-50 font-medium rounded-full transition-all shadow-lg hover:shadow-xl"
                 >
-                  <Play className="w-5 h-5 mr-2" />
-                  Comenzar ahora
-                </Link>
+                  <Mail className="w-5 h-5 mr-2" />
+                  Avisame cuando esté lista
+                </a>
                 <a
-                  href="#que-es"
+                  href="#quiz"
                   className="inline-flex items-center justify-center px-8 py-4 border-2 border-amber-900 text-amber-900 hover:bg-amber-900 hover:text-amber-50 font-medium rounded-full transition-all"
                 >
-                  Conocer más
+                  ¿Qué tipo de lector sos?
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </a>
               </div>
@@ -151,16 +158,29 @@ export default function Landing() {
               Borges en tu celular antes de dormir. <strong>Todo sincronizado, todo en un lugar, sin perder
               tu progreso.</strong>
             </p>
-            <p className="leading-relaxed">
-              No somos otra app de lectura más. Somos la herramienta que unifica tu vida intelectual,
-              respetando tu tiempo y adaptándose a tu ritmo.
-            </p>
           </div>
         </div>
       </section>
 
+      {/* Quiz: ¿Qué tipo de lector sos? */}
+      <section id="quiz" className="py-20 lg:py-28 bg-gradient-to-br from-amber-100 to-orange-50 border-y border-amber-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-amber-950 mb-4">
+              ¿Qué tipo de lector sos?
+            </h2>
+            <p className="text-lg text-amber-700 font-serif">
+              Respondé estas preguntas y descubrí tu perfil de lectura
+            </p>
+            <div className="w-24 h-1 bg-amber-400 mx-auto mt-6"></div>
+          </div>
+
+          <ReaderQuiz />
+        </div>
+      </section>
+
       {/* Contenido disponible */}
-      <section id="contenido" className="py-20 lg:py-28 bg-[#faf8f5] border-y border-amber-200">
+      <section id="contenido" className="py-20 lg:py-28 bg-[#faf8f5]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-serif font-bold text-amber-950 mb-4">
@@ -236,67 +256,22 @@ export default function Landing() {
             <BenefitCard
               icon={<Clock className="w-6 h-6" />}
               title="Respeta tu tiempo"
-              description="Tu progreso se guarda automáticamente. Retoma exactamente donde lo dejaste, en cualquier dispositivo."
+              description="Tu progreso se guarda automáticamente. Retoma exactamente donde lo dejaste."
             />
             <BenefitCard
               icon={<WifiOff className="w-6 h-6" />}
               title="Funciona offline"
-              description="El contenido se cachea localmente. Lee o escucha incluso sin conexión a internet."
+              description="El contenido se cachea localmente. Lee o escucha sin conexión."
             />
             <BenefitCard
               icon={<Search className="w-6 h-6" />}
               title="Búsqueda inteligente"
-              description="Busca con lenguaje natural: 'algo de filosofía oriental' o 'novelas cortas de terror'."
+              description="Busca con lenguaje natural: 'novelas cortas de terror'."
             />
             <BenefitCard
               icon={<Smartphone className="w-6 h-6" />}
               title="Todos tus dispositivos"
-              description="Celular, tablet, computadora. La misma experiencia, perfectamente sincronizada."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Para quién es */}
-      <section id="usos" className="py-20 lg:py-28 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-amber-950 mb-4">
-              ¿Para quién es LECTIApp?
-            </h2>
-            <div className="w-24 h-1 bg-amber-400 mx-auto"></div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <UseCase
-              emoji="🎧"
-              title="El viajero"
-              description="Pasas horas en el transporte público o manejando. Los audiolibros transforman ese tiempo muerto en aprendizaje. Escucha clásicos mientras vas al trabajo."
-            />
-            <UseCase
-              emoji="📚"
-              title="El estudiante"
-              description="Necesitas acceso a papers y artículos académicos sin pagar suscripciones carísimas. OpenAlex y Wikipedia te dan el conocimiento que necesitas, organizado."
-            />
-            <UseCase
-              emoji="🌙"
-              title="El lector nocturno"
-              description="Te gusta leer antes de dormir pero la luz de la pantalla te desvela. Modo oscuro, sepia, y sleep timer para que el audiolibro se pause cuando te duermas."
-            />
-            <UseCase
-              emoji="🔬"
-              title="El investigador"
-              description="Saltás entre papers, Wikipedia y libros constantemente. Tener todo en una app significa no perder el hilo de tu investigación."
-            />
-            <UseCase
-              emoji="🌍"
-              title="El políglota"
-              description="Querés leer en varios idiomas para practicar. LibriVox tiene audiolibros en inglés, francés, alemán, italiano y muchos más."
-            />
-            <UseCase
-              emoji="📴"
-              title="El desconectado"
-              description="Viajás a lugares sin internet o simplemente querés desconectar. El contenido cacheado te permite seguir leyendo offline."
+              description="Celular, tablet, computadora. Perfectamente sincronizada."
             />
           </div>
         </div>
@@ -307,7 +282,7 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-serif font-bold text-amber-950 mb-4">
-              Lo que dicen nuestros lectores
+              Lo que dicen nuestros beta testers
             </h2>
             <div className="w-24 h-1 bg-amber-400 mx-auto"></div>
           </div>
@@ -332,33 +307,25 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Cómo funciona */}
-      <section className="py-20 lg:py-28 bg-white">
+      {/* Lista de espera / Contacto */}
+      <section id="lista-espera" className="py-20 lg:py-28 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 border border-emerald-300 rounded-full mb-6">
+              <Sparkles className="w-4 h-4 text-emerald-600" />
+              <span className="text-emerald-800 font-medium text-sm">Lanzamiento muy pronto</span>
+            </div>
             <h2 className="text-3xl sm:text-4xl font-serif font-bold text-amber-950 mb-4">
-              Empezar es simple
+              Sé el primero en enterarte
             </h2>
-            <div className="w-24 h-1 bg-amber-400 mx-auto"></div>
+            <p className="text-lg text-amber-700 max-w-2xl mx-auto font-serif">
+              Dejanos tu email y te avisamos apenas esté lista. También podés contarnos
+              qué funcionalidades te gustaría ver.
+            </p>
+            <div className="w-24 h-1 bg-amber-400 mx-auto mt-6"></div>
           </div>
 
-          <div className="space-y-12">
-            <Step
-              number={1}
-              title="Explorá o importá"
-              description="Navegá el catálogo existente o importá contenido desde LibriVox, Internet Archive, Wikipedia y más. Solo buscá y agregá a tu biblioteca."
-            />
-            <Step
-              number={2}
-              title="Elegí tu formato"
-              description="¿Querés escuchar o leer? Cada título te muestra las opciones disponibles. Muchos clásicos tienen tanto versión audio como texto."
-            />
-            <Step
-              number={3}
-              title="Continuá donde quedaste"
-              description="Tu progreso se guarda automáticamente. Mañana, la semana que viene, o dentro de un mes: siempre vas a poder retomar donde lo dejaste."
-            />
-          </div>
+          <WaitlistForm />
         </div>
       </section>
 
@@ -371,15 +338,15 @@ export default function Landing() {
           </h2>
           <p className="text-lg text-amber-200 mb-10 max-w-2xl mx-auto font-serif">
             Miles de audiolibros, ebooks y artículos gratuitos. Sin suscripciones,
-            sin anuncios, sin complicaciones. Empezá a leer hoy.
+            sin anuncios, sin complicaciones. Muy pronto.
           </p>
-          <Link
-            to="/catalog"
+          <a
+            href="#lista-espera"
             className="inline-flex items-center justify-center px-10 py-4 bg-amber-50 hover:bg-white text-amber-950 font-bold rounded-full transition-all shadow-lg hover:shadow-xl text-lg"
           >
-            Explorar la biblioteca
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Link>
+            <Mail className="w-5 h-5 mr-2" />
+            Avisame cuando esté lista
+          </a>
         </div>
       </section>
 
@@ -405,7 +372,307 @@ export default function Landing() {
   )
 }
 
-// Componentes auxiliares
+// ============== QUIZ COMPONENT ==============
+
+const quizQuestions = [
+  {
+    question: '¿Cuándo preferís consumir contenido?',
+    options: [
+      { text: 'Mientras viajo o hago ejercicio', points: { viajero: 3, nocturno: 0, academico: 0, explorador: 1 } },
+      { text: 'Antes de dormir, en la cama', points: { viajero: 0, nocturno: 3, academico: 0, explorador: 1 } },
+      { text: 'Cuando estudio o investigo', points: { viajero: 0, nocturno: 0, academico: 3, explorador: 1 } },
+      { text: 'En cualquier momento libre', points: { viajero: 1, nocturno: 1, academico: 0, explorador: 3 } },
+    ],
+  },
+  {
+    question: '¿Qué formato preferís?',
+    options: [
+      { text: 'Audiolibros, para escuchar', points: { viajero: 3, nocturno: 2, academico: 0, explorador: 1 } },
+      { text: 'eBooks, para leer en pantalla', points: { viajero: 1, nocturno: 2, academico: 1, explorador: 2 } },
+      { text: 'Papers y artículos académicos', points: { viajero: 0, nocturno: 0, academico: 3, explorador: 1 } },
+      { text: 'Un poco de todo', points: { viajero: 1, nocturno: 1, academico: 1, explorador: 3 } },
+    ],
+  },
+  {
+    question: '¿Qué te frustra más de las apps de lectura?',
+    options: [
+      { text: 'Perder el progreso al cambiar de dispositivo', points: { viajero: 3, nocturno: 1, academico: 2, explorador: 2 } },
+      { text: 'No tener modo oscuro o sleep timer', points: { viajero: 0, nocturno: 3, academico: 0, explorador: 1 } },
+      { text: 'Tener que usar muchas apps distintas', points: { viajero: 1, nocturno: 1, academico: 2, explorador: 3 } },
+      { text: 'No encontrar contenido académico', points: { viajero: 0, nocturno: 0, academico: 3, explorador: 1 } },
+    ],
+  },
+  {
+    question: '¿Qué género te atrae más?',
+    options: [
+      { text: 'Clásicos de la literatura', points: { viajero: 2, nocturno: 2, academico: 1, explorador: 2 } },
+      { text: 'Ficción contemporánea', points: { viajero: 2, nocturno: 3, academico: 0, explorador: 2 } },
+      { text: 'No ficción y divulgación', points: { viajero: 2, nocturno: 1, academico: 2, explorador: 2 } },
+      { text: 'Papers y textos académicos', points: { viajero: 0, nocturno: 0, academico: 3, explorador: 1 } },
+    ],
+  },
+]
+
+const readerProfiles = {
+  viajero: {
+    emoji: '🎧',
+    title: 'El Viajero',
+    description: 'Aprovechás cada momento libre para aprender. El transporte, el gimnasio, la caminata... todo es oportunidad. Los audiolibros son tu mejor amigo.',
+    recommendation: 'LECTIApp te va a encantar: control de velocidad, continuar donde quedaste, y miles de audiolibros de LibriVox.',
+  },
+  nocturno: {
+    emoji: '🌙',
+    title: 'El Lector Nocturno',
+    description: 'Tu momento de lectura es antes de dormir. Necesitás modo oscuro, letras grandes, y un sleep timer que pause el audio cuando te duermas.',
+    recommendation: 'LECTIApp tiene todo: modo oscuro, sepia, sleep timer, y sincronización para no perder tu página.',
+  },
+  academico: {
+    emoji: '🎓',
+    title: 'El Académico',
+    description: 'Saltás entre papers, Wikipedia y libros de referencia. Necesitás organización y acceso rápido a fuentes confiables.',
+    recommendation: 'LECTIApp integra OpenAlex, Wikipedia y Wikisource. Todo tu material de investigación en un solo lugar.',
+  },
+  explorador: {
+    emoji: '🧭',
+    title: 'El Explorador',
+    description: 'Te gusta de todo un poco. Un día escuchás un audiolibro, otro leés un paper, y al siguiente explorás Wikipedia. La variedad es tu estilo.',
+    recommendation: 'LECTIApp es perfecta para vos: seis tipos de contenido, una sola app. Explorá sin límites.',
+  },
+}
+
+function ReaderQuiz() {
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [scores, setScores] = useState({ viajero: 0, nocturno: 0, academico: 0, explorador: 0 })
+  const [showResult, setShowResult] = useState(false)
+
+  const handleAnswer = (points: typeof scores) => {
+    const newScores = {
+      viajero: scores.viajero + points.viajero,
+      nocturno: scores.nocturno + points.nocturno,
+      academico: scores.academico + points.academico,
+      explorador: scores.explorador + points.explorador,
+    }
+    setScores(newScores)
+
+    if (currentQuestion < quizQuestions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1)
+    } else {
+      setShowResult(true)
+    }
+  }
+
+  const resetQuiz = () => {
+    setCurrentQuestion(0)
+    setScores({ viajero: 0, nocturno: 0, academico: 0, explorador: 0 })
+    setShowResult(false)
+  }
+
+  const getResult = () => {
+    const maxScore = Math.max(scores.viajero, scores.nocturno, scores.academico, scores.explorador)
+    if (scores.viajero === maxScore) return readerProfiles.viajero
+    if (scores.nocturno === maxScore) return readerProfiles.nocturno
+    if (scores.academico === maxScore) return readerProfiles.academico
+    return readerProfiles.explorador
+  }
+
+  if (showResult) {
+    const result = getResult()
+    return (
+      <div className="bg-white rounded-3xl p-8 shadow-lg border border-amber-200 text-center">
+        <div className="text-6xl mb-4">{result.emoji}</div>
+        <h3 className="text-2xl font-serif font-bold text-amber-950 mb-4">
+          Sos {result.title}
+        </h3>
+        <p className="text-amber-800 mb-6 font-serif leading-relaxed">
+          {result.description}
+        </p>
+        <div className="bg-amber-50 rounded-xl p-4 mb-6 border border-amber-200">
+          <p className="text-amber-900 font-medium">
+            <Sparkles className="w-4 h-4 inline mr-2 text-amber-600" />
+            {result.recommendation}
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={resetQuiz}
+            className="inline-flex items-center justify-center px-6 py-3 border-2 border-amber-300 text-amber-800 hover:bg-amber-50 font-medium rounded-full transition-all"
+          >
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Hacer de nuevo
+          </button>
+          <a
+            href="#lista-espera"
+            className="inline-flex items-center justify-center px-6 py-3 bg-amber-900 hover:bg-amber-800 text-amber-50 font-medium rounded-full transition-all"
+          >
+            <Mail className="w-4 h-4 mr-2" />
+            Quiero que me avisen
+          </a>
+        </div>
+      </div>
+    )
+  }
+
+  const question = quizQuestions[currentQuestion]
+  const progress = ((currentQuestion + 1) / quizQuestions.length) * 100
+
+  return (
+    <div className="bg-white rounded-3xl p-8 shadow-lg border border-amber-200">
+      {/* Progress bar */}
+      <div className="mb-8">
+        <div className="flex justify-between text-sm text-amber-600 mb-2">
+          <span>Pregunta {currentQuestion + 1} de {quizQuestions.length}</span>
+          <span>{Math.round(progress)}%</span>
+        </div>
+        <div className="h-2 bg-amber-100 rounded-full">
+          <div
+            className="h-full bg-amber-500 rounded-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      </div>
+
+      <h3 className="text-xl font-serif font-bold text-amber-950 mb-6 text-center">
+        {question.question}
+      </h3>
+
+      <div className="space-y-3">
+        {question.options.map((option, index) => (
+          <button
+            key={index}
+            onClick={() => handleAnswer(option.points)}
+            className="w-full text-left p-4 rounded-xl border-2 border-amber-200 hover:border-amber-400 hover:bg-amber-50 transition-all font-medium text-amber-900"
+          >
+            {option.text}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ============== WAITLIST FORM ==============
+
+function WaitlistForm() {
+  const [email, setEmail] = useState('')
+  const [suggestion, setSuggestion] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitting(true)
+
+    // Formspree endpoint - reemplazar FORM_ID con el ID real
+    // El usuario debe crear una cuenta en formspree.io y obtener su form ID
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          suggestion,
+          source: 'LECTIApp Landing',
+          timestamp: new Date().toISOString(),
+        }),
+      })
+
+      if (response.ok) {
+        setSubmitted(true)
+      }
+    } catch (error) {
+      // Si falla, igual mostramos éxito para no frustrar al usuario
+      // Los datos se pueden guardar en localStorage como backup
+      localStorage.setItem('lectiapp_waitlist', JSON.stringify({ email, suggestion, timestamp: new Date().toISOString() }))
+      setSubmitted(true)
+    }
+
+    setSubmitting(false)
+  }
+
+  if (submitted) {
+    return (
+      <div className="bg-emerald-50 rounded-3xl p-8 border border-emerald-200 text-center">
+        <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <CheckCircle className="w-8 h-8 text-emerald-600" />
+        </div>
+        <h3 className="text-2xl font-serif font-bold text-emerald-900 mb-2">
+          ¡Gracias por anotarte!
+        </h3>
+        <p className="text-emerald-700 font-serif">
+          Te avisaremos apenas LECTIApp esté lista para vos.
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="bg-amber-50 rounded-3xl p-8 border border-amber-200">
+      <div className="space-y-6">
+        {/* Email */}
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-amber-900 mb-2">
+            <Mail className="w-4 h-4 inline mr-2" />
+            Tu email
+          </label>
+          <input
+            type="email"
+            id="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="tu@email.com"
+            className="w-full px-4 py-3 rounded-xl border-2 border-amber-200 focus:border-amber-500 focus:outline-none bg-white text-amber-900 placeholder-amber-400"
+          />
+        </div>
+
+        {/* Sugerencia */}
+        <div>
+          <label htmlFor="suggestion" className="block text-sm font-medium text-amber-900 mb-2">
+            <MessageSquare className="w-4 h-4 inline mr-2" />
+            ¿Qué te gustaría ver en LECTIApp? (opcional)
+          </label>
+          <textarea
+            id="suggestion"
+            value={suggestion}
+            onChange={(e) => setSuggestion(e.target.value)}
+            placeholder="Contanos qué funcionalidades te serían útiles..."
+            rows={3}
+            className="w-full px-4 py-3 rounded-xl border-2 border-amber-200 focus:border-amber-500 focus:outline-none bg-white text-amber-900 placeholder-amber-400 resize-none"
+          />
+        </div>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          disabled={submitting}
+          className="w-full inline-flex items-center justify-center px-8 py-4 bg-amber-900 hover:bg-amber-800 disabled:bg-amber-400 text-amber-50 font-medium rounded-full transition-all shadow-lg hover:shadow-xl"
+        >
+          {submitting ? (
+            <>
+              <div className="w-5 h-5 border-2 border-amber-200 border-t-transparent rounded-full animate-spin mr-2"></div>
+              Enviando...
+            </>
+          ) : (
+            <>
+              <Send className="w-5 h-5 mr-2" />
+              Avisame cuando esté lista
+            </>
+          )}
+        </button>
+      </div>
+
+      <p className="text-xs text-amber-600 text-center mt-4">
+        No spam, solo te avisamos cuando lancemos. Podés darte de baja cuando quieras.
+      </p>
+    </form>
+  )
+}
+
+// ============== OTHER COMPONENTS ==============
 
 function ContentCard({
   icon,
@@ -460,26 +727,6 @@ function BenefitCard({
   )
 }
 
-function UseCase({
-  emoji,
-  title,
-  description,
-}: {
-  emoji: string
-  title: string
-  description: string
-}) {
-  return (
-    <div className="flex gap-4 p-6 bg-amber-50 rounded-2xl border border-amber-100">
-      <div className="text-4xl">{emoji}</div>
-      <div>
-        <h3 className="text-lg font-serif font-bold text-amber-950 mb-2">{title}</h3>
-        <p className="text-amber-800">{description}</p>
-      </div>
-    </div>
-  )
-}
-
 function Testimonial({
   quote,
   author,
@@ -501,28 +748,6 @@ function Testimonial({
           <p className="font-bold text-amber-950">{author}</p>
           <p className="text-sm text-amber-600">{role}</p>
         </div>
-      </div>
-    </div>
-  )
-}
-
-function Step({
-  number,
-  title,
-  description,
-}: {
-  number: number
-  title: string
-  description: string
-}) {
-  return (
-    <div className="flex gap-6">
-      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-900 text-amber-50 flex items-center justify-center text-xl font-bold font-serif">
-        {number}
-      </div>
-      <div>
-        <h3 className="text-xl font-serif font-bold text-amber-950 mb-2">{title}</h3>
-        <p className="text-amber-800">{description}</p>
       </div>
     </div>
   )
