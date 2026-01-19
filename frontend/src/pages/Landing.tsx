@@ -3,7 +3,6 @@ import {
   BookOpen,
   Headphones,
   Video,
-  FileText,
   Search,
   Download,
   Smartphone,

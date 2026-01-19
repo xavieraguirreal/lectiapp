@@ -9,7 +9,6 @@ import {
   SkipForward,
   Volume2,
   VolumeX,
-  Clock,
   List,
   X,
   ChevronDown,

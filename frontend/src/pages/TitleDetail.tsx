@@ -3,7 +3,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   ArrowLeft,
-  Play,
   BookOpen,
   Video,
   Clock,

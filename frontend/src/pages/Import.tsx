@@ -11,7 +11,6 @@ import {
   Download,
   Check,
   Loader2,
-  ExternalLink,
 } from 'lucide-react'
 import { api } from '../services/api'
 

@@ -10,7 +10,6 @@ import {
   Maximize,
   Minimize,
   Settings,
-  ChevronDown,
 } from 'lucide-react'
 import type { AppDispatch, RootState } from '../store'
 import { fetchTitleById } from '../store/slices/catalogSlice'

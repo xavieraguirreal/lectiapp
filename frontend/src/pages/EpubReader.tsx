@@ -43,8 +43,8 @@ export default function EpubReader() {
     if (!title || !viewerRef.current) return
 
     const loadEpub = async () => {
-      // @ts-expect-error - epub.js types
-      const ePub = (await import('epubjs')).default
+      const epubModule = await import('epubjs')
+      const ePub = epubModule.default
 
       const epubUrl = title.es_epub
         ? api.getEpubStreamUrl(title.id)
@@ -65,7 +65,7 @@ export default function EpubReader() {
       // Track progress
       book.ready.then(() => {
         book.locations.generate(1024).then(() => {
-          rend.on('relocated', (location: { start: { percentage: number } }) => {
+          rend.on('relocated', (location: { start: { percentage: number; cfi?: string } }) => {
             const percent = Math.round(location.start.percentage * 100)
             setProgress(percent)
 
@@ -75,7 +75,7 @@ export default function EpubReader() {
               usuario_id: user?.id,
               device_id: deviceId,
               tipo_lectura: 'epub',
-              cfi_posicion: location.start.cfi,
+              cfi_posicion: location.start.cfi || '',
               porcentaje_posicion: percent,
             })
           })

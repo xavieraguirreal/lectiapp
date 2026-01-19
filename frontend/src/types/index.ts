@@ -44,6 +44,10 @@ export interface Title {
   keywords: string | null
   citations_count: number | null
 
+  // URLs adicionales
+  url_texto: string | null
+  url_fuente: string | null
+
   // Capítulos (para audiolibros)
   capitulos?: AudioChapter[]
 }
