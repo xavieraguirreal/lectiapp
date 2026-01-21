@@ -562,12 +562,11 @@ function WaitlistForm() {
     e.preventDefault()
     setSubmitting(true)
 
-    // Formspree endpoint - reemplazar FORM_ID con el ID real
-    // El usuario debe crear una cuenta en formspree.io y obtener su form ID
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'
+    // Endpoint PHP propio
+    const API_ENDPOINT = '../backend/public/waitlist.php'
 
     try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
+      const response = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -575,17 +574,20 @@ function WaitlistForm() {
         body: JSON.stringify({
           email,
           suggestion,
-          source: 'LECTIApp Landing',
-          timestamp: new Date().toISOString(),
         }),
       })
 
-      if (response.ok) {
+      const result = await response.json()
+
+      if (result.success) {
+        setSubmitted(true)
+      } else {
+        // Si hay error del servidor, guardar en localStorage como backup
+        localStorage.setItem('lectiapp_waitlist', JSON.stringify({ email, suggestion, timestamp: new Date().toISOString() }))
         setSubmitted(true)
       }
     } catch (error) {
-      // Si falla, igual mostramos éxito para no frustrar al usuario
-      // Los datos se pueden guardar en localStorage como backup
+      // Si falla la conexión, guardar en localStorage como backup
       localStorage.setItem('lectiapp_waitlist', JSON.stringify({ email, suggestion, timestamp: new Date().toISOString() }))
       setSubmitted(true)
     }

@@ -1,0 +1,13 @@
+# Datos de usuarios (no subir a git)
+data/
+*.json
+
+# Archivos de configuración con secretos
+.env
+
+# Cache
+cache/
+
+# Logs
+*.log
+logs/
